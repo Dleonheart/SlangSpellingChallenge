@@ -1,1 +1,1 @@
-export { RouterStore } from './RouterStore';
+export { AppStateStore } from './AppStateStore';
