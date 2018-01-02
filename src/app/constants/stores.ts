@@ -1,2 +1,2 @@
 export const STORE_SPELLING = 'spelling';
-export const STORE_ROUTER = 'router';
+export const STORE_APPSTATE = 'appstate';
