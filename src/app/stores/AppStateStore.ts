@@ -13,8 +13,18 @@ export class AppStateStore {
     return this.scene === 'intro';
   }
 
+  @computed 
+  get isHelpMessageScene() {
+    return this.scene === 'help-message';
+  }
+
   @action
   introFinished() {
+    this.scene = 'help-message';
+  }
+
+  @action
+  helpMessageFinished() {
     this.scene = 'excercise';
   }
 

@@ -10,9 +10,22 @@
     margin-right: 40px;
 }
 
+.smallSlangLogo {
+    width: 39px;
+    height: 54px;
+    position: absolute;
+    top: 30px;
+}
+
 .introContainer .scene {
     display: flex;
     justify-content: center;
     flex-basis: 100%;
     align-items: center;
+}
+
+.helpText {
+    font-size: 59px;
+    font-weight: bold;
+    max-width: 450px;
 }
