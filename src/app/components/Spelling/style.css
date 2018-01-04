@@ -8,7 +8,7 @@
 
 .progressPanel {
     flex-basis: 40%;
-    background: rgb(46, 46, 46);
+    background: #414141;
 }
 
 
@@ -43,4 +43,22 @@
 
 .wrongsHeading {
     color: #FF9200;
+}
+
+
+/*Audio button*/
+
+.audioButton {
+    align-self: center;
+    width: 86px;
+    height: 86px;
+    background: #484848;
+    cursor: pointer;
+    border-radius: 50%;
+    position: relative;
+    left: -40px;
+    border: none;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.32);
+    outline: none;
+    padding-left: 15px;
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as style from './style.css';
 import { observer } from 'mobx-react';
 import { TweenMax, TimelineMax, Back, Expo } from 'gsap'
-import { ProgressTracker } from './';
+import { ProgressTracker, AudioComponent } from './';
 
 
 
@@ -37,6 +37,8 @@ export class SpellingExercise extends React.Component<{}, {}> {
     return (
       <div className={style.exerciseContainer}>
         <ProgressTracker />
+        <AudioComponent source="https://s3.amazonaws.com/lengio-development/sounds/8017fa443b55ba9b89aadbd688093ba3c67a7e9e/original.mp3" />
+        <div></div>
       </div>
     );
   }
