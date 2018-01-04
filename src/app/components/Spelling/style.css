@@ -61,4 +61,43 @@
     box-shadow: 0px 4px 6px rgba(0,0,0,0.32);
     outline: none;
     padding-left: 15px;
+    flex-shrink: 0;
+}
+
+
+.spellingContainer {
+    position: relative;
+    left: -30px;
+
+}
+
+
+/* Letter Pool */
+
+ul.letterPoolContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin-top: 60px;
+    min-height: 200px;
+    align-items: center;
+}
+
+.letter {
+    font-size: 42px;
+    font-weight: bolder;
+    border-bottom: 4px solid #FEC600;
+    margin-right: 10px;
+    margin-top: 15px;
+    min-width: 30px; 
+    text-align: center;
+    cursor: pointer;
+    transition: border-bottom, transform .15s ease-out;
+}
+
+.letter:hover {
+    border-bottom: 4px solid rgb(231, 99, 10);
+    transform: scale(1.1);
 }
