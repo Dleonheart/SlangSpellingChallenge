@@ -3,51 +3,41 @@ import * as style from './style.css';
 import { observer } from 'mobx-react';
 import { TweenMax, TimelineMax, Back, Expo } from 'gsap'
 
-export interface HelpMessageProps {
-    helpMessageFinished: () => void;
-}
+
 
 @observer
-export class HelpMessage extends React.Component<HelpMessageProps, {}> {
+export class ProgressTracker extends React.Component<{}, {}> {
 
-
-  constructor(props:HelpMessageProps, context: any) {
+    
+  constructor(props:any, context: any) {
     super(props, context);    
-    this.animationFinished = this.animationFinished.bind(this);
   }
 
   private tl : TimelineMax;
   private logoSegments : HTMLCollection;
-  private helpText : any;
+  
 
-  buildTimeline() {
-    this.tl = new TimelineMax({paused: true, onComplete: this.animationFinished});
-    this.tl.staggerFrom(this.logoSegments, .8, {alpha: 0, y: 15}, .1)
-        .from(this.helpText, .5, {alpha: 0, y: 15}, .5);
+  buildTimeline(done) {
+    this.tl = new TimelineMax({paused: true, onComplete: () => {
+        done();
+    }});
+    // insert intro animation timeline here
     this.tl.play();
 
   }
 
   componentDidMount() {
-    this.buildTimeline();    
+    
   }
 
-  animationFinished() {
-    //once the reversed timeline animation is finished, notify parent
-    this.tl.eventCallback('onReverseComplete', () =>{
-        this.props.helpMessageFinished();
-    });
-    //reverse the intro animation, but wait 2 seconds
-    TweenMax.delayedCall(2, () => {
-        this.tl.reverse();
-    })
-  }
+  
 
   render() {
     return (
-      <div className={style.introContainer}>
-        <div className={style.scene}>
-            <svg width="153px" height="210px" viewBox="0 0 153 210" className={style.smallSlangLogo}>
+      <div className={style.progressPanel}>
+
+        <div className={style.slangLogoContainer}>
+            <svg viewBox="0 0 153 210" className={style.smallSlangLogo}>
                 <g fill="none" transform="translate(-459.000000, -408.000000)">
                     <g id="slang-logo" transform="translate(459.000000, 408.000000)" ref={logo => logo && (this.logoSegments = logo.children)}>
                         <path d="M85.1189403,2.0435881 C75.5230385,-2.7260536 63.8571183,1.13738754 59.0495955,10.6770587 C56.7460788,15.2569737 56.3677829,20.560155 57.9980844,25.4177822 C59.6283859,30.2754093 63.1334613,34.2887436 67.7407924,36.5732467 L124.885306,64.9572596 C134.479024,69.7246555 146.141401,65.8636485 150.950404,56.3280128 C153.253921,51.7480979 153.632217,46.4449165 152.001916,41.5872894 C150.371614,36.7296622 146.866539,32.7163279 142.259208,30.4318248 L85.1189403,2.04781191 L85.1189403,2.0435881 Z" id="Shape" fill="#47AAF7"></path>
@@ -59,11 +49,15 @@ export class HelpMessage extends React.Component<HelpMessageProps, {}> {
                     </g>
                 </g>
             </svg>
-
-            <div className={style.helpText} ref={helpText => this.helpText = helpText}>
-                <p>Spell the words you hear ...</p>
-            </div>
         </div>
+
+        <div className={style.progress}>
+
+            <p><span className={style.rightsHeading}>Rights</span>  <span>18</span></p>
+            <p><span className={style.wrongsHeading}>Wrongs</span>  <span>18</span></p>
+        
+        </div>
+        
       </div>
     );
   }

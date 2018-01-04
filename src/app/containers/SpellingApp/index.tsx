@@ -4,8 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { STORE_SPELLING, STORE_APPSTATE } from '../../constants/stores';
 import { AppStateStore } from '../../stores';
 import { SlangIntro, HelpMessage } from '../../components/Intro';
-import { TransitionGroup } from 'react-transition-group';
-
+import { SpellingExercise } from '../../components/Spelling';
 
 export interface SpellingAppProps {
  
@@ -38,13 +37,10 @@ export class SpellingApp extends React.Component<SpellingAppProps, SpellingAppSt
   }
 
   renderIntro() {
-    
     const shouldRenderIntro = this.appState.isIntroScene;
     if(shouldRenderIntro) {
       return (
-      <SlangIntro introFinished={this.introFinished} key={1}>
-        
-      </SlangIntro>
+      <SlangIntro introFinished={this.introFinished} />
       )
     } else return null
   }
@@ -53,9 +49,16 @@ export class SpellingApp extends React.Component<SpellingAppProps, SpellingAppSt
     const shouldRenderHelpMessage = this.appState.isHelpMessageScene;
     if(shouldRenderHelpMessage) {
       return (
-      <HelpMessage helpMessageFinished={this.helpMessageFinished} key={2}>
-        
-      </HelpMessage>
+      <HelpMessage helpMessageFinished={this.helpMessageFinished} />
+      )
+    } else return null
+  }
+
+  renderSpellingExercise() {
+    const shouldRenderExercise = this.appState.isExercise;
+    if(shouldRenderExercise) {
+      return (
+      <SpellingExercise />
       )
     } else return null
   }
@@ -66,13 +69,9 @@ export class SpellingApp extends React.Component<SpellingAppProps, SpellingAppSt
 
     return (
       <div className={style.card}>
-      
-        <TransitionGroup component="span">
           {this.renderIntro()}
           {this.renderHelpMessage()}
-        </TransitionGroup>
-        
-      
+          {this.renderSpellingExercise()}
       </div>
     );
   }

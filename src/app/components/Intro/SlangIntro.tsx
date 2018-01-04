@@ -14,33 +14,34 @@ export class SlangIntro extends React.Component<IntroProps, {}> {
 
 
   constructor(props:IntroProps, context: any) {
-    super(props, context);    
+    super(props, context);
+    this.animationFinished = this.animationFinished.bind(this);
   }
 
   private tl : TimelineMax;
   private logoSegments : HTMLCollection;
   private logoTitle : any;
 
-  buildTimeline(done) {
-    this.tl = new TimelineMax({paused: true, onComplete: () => {
-        done();
-    }});
+  buildTimeline() {
+    this.tl = new TimelineMax({paused: true, onComplete: this.animationFinished});
     this.tl.staggerFrom(this.logoSegments, .8, {alpha: 0, y: 15}, .1)
         .from(this.logoTitle, 1.2, {alpha: 0, y: 15, ease: Back.easeOut}, .5);
     this.tl.play();
 
   }
 
-  componentDidAppear() {
+  animationFinished() {
     this.tl.eventCallback('onReverseComplete', () =>{
         this.props.introFinished();
     });
     this.tl.reverse();
   }
 
-  componentWillAppear(done) {
-    this.buildTimeline(done);
+  componentDidMount() {
+    this.buildTimeline();
   }
+
+  
 
   render() {
     return (
