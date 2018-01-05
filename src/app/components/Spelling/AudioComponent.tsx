@@ -3,7 +3,7 @@ import * as style from './style.css';
 import { TweenMax, TimelineMax, Back, Expo } from 'gsap';
 
 export interface AudioComponentProps {
-    source : any;
+    audioSource : any;
 }
 
 export class AudioComponent extends React.Component<AudioComponentProps, {}> {
@@ -37,7 +37,7 @@ export class AudioComponent extends React.Component<AudioComponentProps, {}> {
   render() {
     return (
       <button className={style.audioButton} onClick={()=>this.audio.play()}>
-       <audio  ref={ audio => this.audio = audio } src={ this.props.source }></audio>
+       <audio  ref={ audio => this.audio = audio } src={ this.props.audioSource }></audio>
         <div className={style.playIconContainer}>
             <svg width="37px" height="41px" viewBox="0 0 37 41">
                 <g id="Desktop-HD" stroke="none" fill="none" transform="translate(-587.000000, -503.000000)">

@@ -6,7 +6,7 @@ import { Provider } from 'mobx-react';
 import { Root } from './containers/Root';
 import { SpellingApp } from './containers/SpellingApp';
 import { STORE_SPELLING, STORE_APPSTATE } from './constants/stores';
-import { AppStateStore } from './stores';
+import { AppStateStore, SpellingDataStore } from './stores';
 
 
 // enable MobX strict mode
@@ -16,9 +16,11 @@ useStrict(true);
 // prepare MobX stores
 const history = createBrowserHistory();
 const appStateStore = new AppStateStore();
+const spellingDataStore = new SpellingDataStore();
 
 const rootStores = {
-  [STORE_APPSTATE]: appStateStore
+  [STORE_APPSTATE]: appStateStore,
+  [STORE_SPELLING]: spellingDataStore
 };
 
 // render react DOM

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as style from './style.css';
 import { inject, observer } from 'mobx-react';
-import { STORE_SPELLING, STORE_APPSTATE } from '../../constants/stores';
+import { STORE_APPSTATE } from '../../constants/stores';
 import { AppStateStore } from '../../stores';
 import { SlangIntro, HelpMessage } from '../../components/Intro';
 import { SpellingExercise } from '../../components/Spelling';

@@ -4,10 +4,14 @@ import { observer } from 'mobx-react';
 import { TweenMax, TimelineMax, Back, Expo } from 'gsap'
 
 
+export interface ProgressTrackerProps {
+  rights: Number;
+  wrongs: Number;
+}
+
 
 @observer
-export class ProgressTracker extends React.Component<{}, {}> {
-
+export class ProgressTracker extends React.Component<ProgressTrackerProps, {}> {
     
   constructor(props:any, context: any) {
     super(props, context);    
@@ -53,8 +57,8 @@ export class ProgressTracker extends React.Component<{}, {}> {
 
         <div className={style.progress}>
 
-            <p><span className={style.rightsHeading}>Rights</span>  <span>18</span></p>
-            <p><span className={style.wrongsHeading}>Wrongs</span>  <span>18</span></p>
+            <p><span className={style.rightsHeading}>Rights</span>  <span>{this.props.rights}</span></p>
+            <p><span className={style.wrongsHeading}>Wrongs</span>  <span>{this.props.rights}</span></p>
         
         </div>
         
