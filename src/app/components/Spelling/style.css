@@ -67,7 +67,10 @@
 
 .spellingContainer {
     position: relative;
-    left: -30px;
+    padding-right: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 
 }
 
@@ -80,8 +83,8 @@ ul.letterPoolContainer {
     justify-content: center;
     list-style: none;
     padding: 0;
-    margin-top: 60px;
-    min-height: 200px;
+    margin: 0;
+    min-height: 150px;
     align-items: center;
 }
 
@@ -90,7 +93,7 @@ ul.letterPoolContainer {
     font-weight: bolder;
     border-bottom: 4px solid #FEC600;
     margin-right: 10px;
-    margin-top: 15px;
+    margin-top: 10px;
     min-width: 30px; 
     text-align: center;
     cursor: pointer;
@@ -100,4 +103,56 @@ ul.letterPoolContainer {
 .letter:hover {
     border-bottom: 4px solid rgb(231, 99, 10);
     transform: scale(1.1);
+}
+
+/* Spelling input */
+
+.inputContainer {
+    
+}
+
+.inputContainer input {
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid #E46363;
+    box-shadow: 0px 3px 6px rgba(0,0,0,0.32);
+    text-align: center;
+    font-size: 32px;
+    font-weight: bolder;
+}
+
+/* Buttons Container */
+
+.buttonsContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    font-size: 24px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    background: grey;
+    color: white;
+    padding: 19px 30px;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px  rgba(0,0,0,0.24);
+    outline: none;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+.buttonsContainer .button:first-child {
+    margin-right: 20px;
+}
+
+.button.buttonGreen {
+    background: #00CA96;
+}
+
+.button.buttonRed {
+    background: #FC6E6E;
 }
