@@ -35,7 +35,7 @@ export class SpellingInput extends React.Component<SpellingInputProps, {}> {
   }
 
   onChange(event) {
-    this.onChange(event.value);
+    this.props.onChange(event.target.value);
   }
 
   render() {

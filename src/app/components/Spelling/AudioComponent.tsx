@@ -49,7 +49,6 @@ export class AudioComponent extends React.Component<AudioComponentProps, {}> {
                 </g>
             </svg>
         </div>
-        
       </button>
     );
   }

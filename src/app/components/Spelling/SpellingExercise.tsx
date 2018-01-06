@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { STORE_SPELLING } from '../../constants/stores';
 import { SpellingDataStore } from '../../stores';
 import { TweenMax, TimelineMax, Back, Expo } from 'gsap'
-import { ProgressTracker, AudioComponent, LetterPool, SpellingInput } from './';
+import { ProgressTracker, AudioComponent, LetterPool, SpellingInput, SpellingLoader } from './';
 
 
 @inject(STORE_SPELLING)
@@ -15,12 +15,19 @@ export class SpellingExercise extends React.Component<{}, {}> {
   constructor(props:any, context: any) {
     super(props, context);   
     this.updateSpelling = this.updateSpelling.bind(this);
+    this.renderSpellingComponents = this.renderSpellingComponents.bind(this);
+    this.skipExercise = this.skipExercise.bind(this);
+    this.sendExercise = this.sendExercise.bind(this);
     this.spellingData = this.props[STORE_SPELLING];
   }
 
   private tl : TimelineMax;
   private logoSegments : HTMLCollection;
   private spellingData : SpellingDataStore;
+
+  componentDidMount() {
+    this.spellingData.fetchExerciseData();
+  }
   
 
   buildTimeline(done) {
@@ -32,12 +39,39 @@ export class SpellingExercise extends React.Component<{}, {}> {
 
   }
 
-  updateSpelling(value) {
-
+  renderSpellingComponents() {
+    return (
+    <div className={style.spellingContainer}>
+      <LetterPool {...this.spellingData} />
+      <SpellingInput {...this.spellingData} onChange={this.updateSpelling} />
+      <div className={style.buttonsContainer}>
+        <button className={[style.button, style.buttonGreen].join(' ')} onClick={this.sendExercise}>Send</button>
+        <button className={[style.button, style.buttonRed].join(' ')} onClick={this.skipExercise}>Skip</button>
+      </div>
+    </div>
+    );
   }
 
-  componentDidMount() {
-    
+  skipExercise() {
+    this.spellingData.fetchExerciseData();
+  }
+
+  sendExercise() {
+    this.spellingData.submitResponse();
+  }
+
+  renderSpellingLoader() {
+    return (
+      <div className={style.spellingContainer}>
+        <div className={style.spellingLoader}>
+          <SpellingLoader />
+        </div>
+      </div>
+    );
+  }
+
+  updateSpelling(result) {
+    this.spellingData.setSpellingResult(result);
   }
 
   render() {
@@ -45,14 +79,8 @@ export class SpellingExercise extends React.Component<{}, {}> {
       <div className={style.exerciseContainer}>
         <ProgressTracker {...this.spellingData} />
         <AudioComponent {...this.spellingData} />
-        <div className={style.spellingContainer}>
-        <LetterPool {...this.spellingData} />
-        <SpellingInput {...this.spellingData} onChange={this.updateSpelling} />
-        <div className={style.buttonsContainer}>
-          <button className={[style.button, style.buttonGreen].join(' ')}>Send</button>
-          <button className={[style.button, style.buttonRed].join(' ')}>Skip</button>
-        </div>
-        </div>
+        { this.spellingData.waiting || this.renderSpellingComponents() }
+        { this.spellingData.waiting && this.renderSpellingLoader() }
       </div>
     );
   }

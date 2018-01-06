@@ -7,6 +7,7 @@ import { Root } from './containers/Root';
 import { SpellingApp } from './containers/SpellingApp';
 import { STORE_SPELLING, STORE_APPSTATE } from './constants/stores';
 import { AppStateStore, SpellingDataStore } from './stores';
+import { SpellingApi } from './api/SpellingApi';
 
 
 // enable MobX strict mode
@@ -16,7 +17,7 @@ useStrict(true);
 // prepare MobX stores
 const history = createBrowserHistory();
 const appStateStore = new AppStateStore();
-const spellingDataStore = new SpellingDataStore();
+const spellingDataStore = new SpellingDataStore(new SpellingApi);
 
 const rootStores = {
   [STORE_APPSTATE]: appStateStore,
