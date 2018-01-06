@@ -18,14 +18,13 @@ export class SpellingDataStore {
 
   @observable letterPool: Array<String>;
 
-  @observable spellingResult: String;  
+  @observable spellingResult: String = "";  
 
   @observable rights: Number = 0;
 
   @observable wrongs: Number = 0;
 
   @observable error: String;
-
 
   @action
   async fetchExerciseData() {
