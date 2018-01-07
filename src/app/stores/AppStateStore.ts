@@ -1,40 +1,41 @@
 import { observable, computed, action } from 'mobx';
 
+export enum AppStates {
+  intro, helpMessage, exercise
+}
+
 export class AppStateStore {
 
   constructor() {
-    this.scene = 'intro';
+    this.scene = AppStates.intro;
   }
 
-  /* -- Marked for refactoring
-    TODO: put state tracking constants in their own file */
-
-  @observable scene : String;
+  @observable scene : AppStates;
 
   @computed 
   get isIntroScene() {
-    return this.scene === 'intro';
+    return this.scene === AppStates.intro;
   }
 
   @computed 
   get isHelpMessageScene() {
-    return this.scene === 'help-message';
+    return this.scene === AppStates.helpMessage;
   }
 
   @computed 
   get isExercise() {
-    return this.scene === 'exercise';
+    return this.scene === AppStates.exercise;
   }
 
 
   @action
   introFinished() {
-    this.scene = 'help-message';
+    this.scene = AppStates.helpMessage;
   }
 
   @action
   helpMessageFinished() {
-    this.scene = 'exercise';
+    this.scene = AppStates.exercise;
   }
 
   

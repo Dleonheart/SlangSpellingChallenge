@@ -23,7 +23,8 @@ export class ProgressTracker extends React.Component<ProgressTrackerProps, {}> {
     TweenMax.staggerFrom(this.animTargets, 1, {
         y:20,
         alpha:0,
-        ease: Expo.easeOut
+        ease: Expo.easeOut,
+        delay: .7
     }, 0.15);
   }
   
