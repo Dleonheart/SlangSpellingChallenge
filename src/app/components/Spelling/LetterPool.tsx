@@ -14,10 +14,8 @@ export class LetterPool extends React.Component<LetterPoolProps, {}> {
   constructor(props:any, context: any) {
     super(props, context);    
   }
-
-  private tl : TimelineMax;
+  
   private letterList: HTMLUListElement;
-
 
   componentDidMount() {
     TweenMax.staggerFrom(this.letterList.children, .5, {y: 5, alpha: 0, ease: Back.easeOut, clearProps:'transform'}, .05);

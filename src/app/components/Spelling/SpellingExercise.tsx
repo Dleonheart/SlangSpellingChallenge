@@ -19,25 +19,14 @@ export class SpellingExercise extends React.Component<{}, {}> {
     this.renderExerciseResults = this.renderExerciseResults.bind(this);
     this.skipExercise = this.skipExercise.bind(this);
     this.sendExercise = this.sendExercise.bind(this);
+    
     this.spellingData = this.props[STORE_SPELLING];
   }
 
-  private tl : TimelineMax;
-  private logoSegments : HTMLCollection;
   private spellingData : SpellingDataStore;
 
   componentDidMount() {
     this.spellingData.fetchExerciseData();
-  }
-  
-
-  buildTimeline(done) {
-    this.tl = new TimelineMax({paused: true, onComplete: () => {
-        done();
-    }});
-    // insert intro animation timeline here
-    this.tl.play();
-
   }
 
   renderSpellingComponents() {

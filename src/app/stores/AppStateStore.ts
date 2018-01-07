@@ -3,7 +3,7 @@ import { observable, computed, action } from 'mobx';
 export class AppStateStore {
 
   constructor() {
-    this.scene = 'exercise';
+    this.scene = 'intro';
   }
 
   /* -- Marked for refactoring

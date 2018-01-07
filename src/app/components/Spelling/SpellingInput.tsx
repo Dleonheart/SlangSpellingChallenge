@@ -17,17 +17,8 @@ export class SpellingInput extends React.Component<SpellingInputProps, {}> {
         
   }
 
-  private tl : TimelineMax;
   private input : any;
   
-  
-  buildTimeline(done) {
-    this.tl = new TimelineMax({paused: true, onComplete: () => {
-        done();
-    }});
-    this.tl.play();
-  }
-
   componentDidMount() {
     this.input.focus();
   }

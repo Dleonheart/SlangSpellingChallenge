@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { createBrowserHistory } from 'history';
 import { useStrict } from 'mobx';
 import { Provider } from 'mobx-react';
 import { Root } from './containers/Root';
@@ -15,7 +14,6 @@ useStrict(true);
 
 
 // prepare MobX stores
-const history = createBrowserHistory();
 const appStateStore = new AppStateStore();
 const spellingDataStore = new SpellingDataStore(new SpellingApi);
 

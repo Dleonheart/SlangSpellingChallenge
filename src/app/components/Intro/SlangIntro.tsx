@@ -41,8 +41,6 @@ export class SlangIntro extends React.Component<IntroProps, {}> {
     this.buildTimeline();
   }
 
-  
-
   render() {
     return (
       <div className={style.introContainer}>
