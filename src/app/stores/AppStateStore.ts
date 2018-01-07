@@ -3,8 +3,11 @@ import { observable, computed, action } from 'mobx';
 export class AppStateStore {
 
   constructor() {
-    this.scene = 'intro'
+    this.scene = 'exercise';
   }
+
+  /* -- Marked for refactoring
+    TODO: put state tracking constants in their own file */
 
   @observable scene : String;
 
@@ -18,6 +21,12 @@ export class AppStateStore {
     return this.scene === 'help-message';
   }
 
+  @computed 
+  get isExercise() {
+    return this.scene === 'exercise';
+  }
+
+
   @action
   introFinished() {
     this.scene = 'help-message';
@@ -25,7 +34,7 @@ export class AppStateStore {
 
   @action
   helpMessageFinished() {
-    this.scene = 'excercise';
+    this.scene = 'exercise';
   }
 
   
