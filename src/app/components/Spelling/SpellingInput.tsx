@@ -4,11 +4,11 @@ import { observer } from 'mobx-react';
 import { TweenMax, TimelineMax, Back, Expo } from 'gsap';
 
 export interface SpellingInputProps {
-    spellingResult: any;
+    spellingResult: string;
     onChange: Function;
 }
 
-
+@observer
 export class SpellingInput extends React.Component<SpellingInputProps, {}> {
   
   constructor(props:any, context: any) {
@@ -25,13 +25,11 @@ export class SpellingInput extends React.Component<SpellingInputProps, {}> {
     this.tl = new TimelineMax({paused: true, onComplete: () => {
         done();
     }});
-    // insert intro animation timeline here
     this.tl.play();
-
   }
 
   componentDidMount() {
-    
+    this.input.focus();
   }
 
   onChange(event) {

@@ -42,7 +42,7 @@ export class SpellingExercise extends React.Component<{}, {}> {
   renderSpellingComponents() {
     return (
     <div className={style.spellingContainer}>
-      <LetterPool {...this.spellingData} />
+      <LetterPool {...this.spellingData} onClick={(index) => this.spellingData.letterPoolToResult(index)}/>
       <SpellingInput {...this.spellingData} onChange={this.updateSpelling} />
       <div className={style.buttonsContainer}>
         <button className={[style.button, style.buttonGreen].join(' ')} disabled={!this.spellingData.spellingResult} onClick={this.sendExercise}>Send</button>
@@ -53,7 +53,7 @@ export class SpellingExercise extends React.Component<{}, {}> {
   }
 
   skipExercise() {
-    this.spellingData.fetchExerciseData();
+    this.spellingData.skipExercise();
   }
 
   sendExercise() {

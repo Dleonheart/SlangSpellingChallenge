@@ -14,17 +14,17 @@ export class SpellingDataStore {
 
   @observable waiting: Boolean;
 
-  @observable audioSource: String;
+  @observable audioSource: string;
 
-  @observable letterPool: Array<String>;
+  @observable letterPool: Array<{letter:string, isUsed:boolean}>;
 
-  @observable spellingResult: String = "";  
+  @observable spellingResult: string = "";  
 
   @observable rights: Number = 0;
 
   @observable wrongs: Number = 0;
 
-  @observable error: String;
+  @observable error: string;
 
   @action
   async fetchExerciseData() {
@@ -35,7 +35,12 @@ export class SpellingDataStore {
         this.waiting = false;
         let {audioSource, letterPool, id } = data;
         this.audioSource = audioSource;
-        this.letterPool = letterPool;
+        this.letterPool = letterPool.map((letter) => {
+          return {
+            letter: letter,
+            isUsed: false
+          }
+        });
         this.exerciseId = id;
       })
     } catch (error) {
@@ -58,10 +63,45 @@ export class SpellingDataStore {
   }
 
   @action 
-  setSpellingResult(result: String) {
+  setSpellingResult(result: string) {
+    if(result.length > this.spellingResult.length) {
+      this.updateUsedChar(result);
+    } else{
+      this.updateUnusedChar(this.spellingResult)
+    }
     this.spellingResult = result;
   }
 
+  @action
+  updateUsedChar(result){
+    let addedChar = result.substr(result.length-1);
+    let usedChar = this.letterPool.find((char) => (char.letter === addedChar) && !char.isUsed);
+    if(usedChar) {
+      usedChar.isUsed = true;
+    }
+  }
+
+  @action
+  updateUnusedChar(result){
+    let deletedChar = result.substr(result.length-1);
+    let unusedChar = this.letterPool.find((char) => (char.letter === deletedChar) && char.isUsed);
+    if(unusedChar) {
+      unusedChar.isUsed = false;
+    }
+  }
+
+  @action
+  letterPoolToResult(index: any) {
+    let charObject = this.letterPool[index];
+    charObject.isUsed = true;
+    this.spellingResult = this.spellingResult.concat(charObject.letter);
+  }
+
+  @action
+  skipExercise() {
+    this.spellingResult = "";
+    this.fetchExerciseData();
+  }
   
 };
 
