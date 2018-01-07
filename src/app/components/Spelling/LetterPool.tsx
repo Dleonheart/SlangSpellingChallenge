@@ -5,7 +5,7 @@ import { TweenMax, TimelineMax, Back, Expo } from 'gsap';
 
 export interface LetterPoolProps {
     letterPool : Array<{letter: string, isUsed:boolean}>;
-    onClick: (index:any) => void;
+    onClick: (index:any, remove:boolean) => void;
 }
 
 @observer
@@ -17,12 +17,7 @@ export class LetterPool extends React.Component<LetterPoolProps, {}> {
 
   private tl : TimelineMax;
   private letterList: HTMLUListElement;
-  
-  
-  buildTimeline(done) {
-    
 
-  }
 
   componentDidMount() {
     TweenMax.staggerFrom(this.letterList.children, .5, {y: 5, alpha: 0, ease: Back.easeOut, clearProps:'transform'}, .05);
@@ -30,7 +25,6 @@ export class LetterPool extends React.Component<LetterPoolProps, {}> {
 
   renderLetters() {
     const { letterPool } = this.props;
-    
 
     return letterPool.map((letterObject, index) => {
       const classNames  = [
@@ -38,7 +32,11 @@ export class LetterPool extends React.Component<LetterPoolProps, {}> {
       ];
       letterObject.isUsed && classNames.push(style.used);
       return (
-        <li className={classNames.join(' ')} key={index} onClick={() => this.props.onClick(index)} >{letterObject.letter}</li>
+        <li className={classNames.join(' ')} 
+            key={index} 
+            onClick={() => this.props.onClick(index, letterObject.isUsed)} >
+            {letterObject.letter}
+        </li>
       )
     });
   }

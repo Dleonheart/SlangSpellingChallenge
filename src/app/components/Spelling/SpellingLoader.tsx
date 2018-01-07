@@ -12,7 +12,6 @@ export class SpellingLoader extends React.Component<{}, {}> {
   private logoSegments : HTMLCollection;
 
   componentDidMount() {
-    console.log(this.logoSegments)
     TweenMax.staggerFrom(this.logoSegments, .8, {alpha: 0, y: 15, repeat: -1, yoyo: true}, .1);
   }  
 

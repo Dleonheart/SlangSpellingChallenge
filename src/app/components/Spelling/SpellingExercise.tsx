@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { STORE_SPELLING } from '../../constants/stores';
 import { SpellingDataStore } from '../../stores';
 import { TweenMax, TimelineMax, Back, Expo } from 'gsap'
-import { ProgressTracker, AudioComponent, LetterPool, SpellingInput, SpellingLoader } from './';
+import { ProgressTracker, AudioComponent, LetterPool, SpellingInput, SpellingLoader, ExerciseResults } from './';
 
 
 @inject(STORE_SPELLING)
@@ -16,6 +16,7 @@ export class SpellingExercise extends React.Component<{}, {}> {
     super(props, context);   
     this.updateSpelling = this.updateSpelling.bind(this);
     this.renderSpellingComponents = this.renderSpellingComponents.bind(this);
+    this.renderExerciseResults = this.renderExerciseResults.bind(this);
     this.skipExercise = this.skipExercise.bind(this);
     this.sendExercise = this.sendExercise.bind(this);
     this.spellingData = this.props[STORE_SPELLING];
@@ -42,13 +43,19 @@ export class SpellingExercise extends React.Component<{}, {}> {
   renderSpellingComponents() {
     return (
     <div className={style.spellingContainer}>
-      <LetterPool {...this.spellingData} onClick={(index) => this.spellingData.letterPoolToResult(index)}/>
+      <LetterPool {...this.spellingData} onClick={(index, remove) => this.spellingData.letterPoolToResult(index)}/>
       <SpellingInput {...this.spellingData} onChange={this.updateSpelling} />
       <div className={style.buttonsContainer}>
         <button className={[style.button, style.buttonGreen].join(' ')} disabled={!this.spellingData.spellingResult} onClick={this.sendExercise}>Send</button>
         <button className={[style.button, style.buttonRed].join(' ')} onClick={this.skipExercise}>Skip</button>
       </div>
     </div>
+    );
+  }
+
+  renderExerciseResults() {
+    return (
+      <ExerciseResults { ...this.spellingData.resultData } onClick={() => this.spellingData.skipExercise()} />
     );
   }
 
@@ -79,8 +86,9 @@ export class SpellingExercise extends React.Component<{}, {}> {
       <div className={style.exerciseContainer}>
         <ProgressTracker {...this.spellingData} />
         <AudioComponent {...this.spellingData} />
-        { this.spellingData.waiting || this.renderSpellingComponents() }
+        { this.spellingData.showingExercise && this.renderSpellingComponents() }
         { this.spellingData.waiting && this.renderSpellingLoader() }
+        { this.spellingData.showingResults && this.renderExerciseResults() }
       </div>
     );
   }

@@ -10,33 +10,39 @@ export class AudioComponent extends React.Component<AudioComponentProps, {}> {
 
     
   constructor(props:any, context: any) {
-    super(props, context);    
+    super(props, context);
+    this.playSound = this.playSound.bind(this);
   }
 
-  private audio: any;
+  private audio: HTMLAudioElement;
+  private root: HTMLElement;
 
-  private tl : TimelineMax;
-  
-  
-
-  buildTimeline(done) {
-    this.tl = new TimelineMax({paused: true, onComplete: () => {
-        done();
-    }});
-    // insert intro animation timeline here
-    this.tl.play();
-
-  }
 
   componentDidMount() {
+    TweenMax.set(this.root, { transformOrigin: 'center center' });
+    TweenMax.from(this.root, .5, {
+        scale: 0,
+        ease: Back.easeOut,
+        delay: .7,
+        onComplete: this.playSound
+    })
     
+  }
+
+  playSound() {
+    TweenMax.to(this.root, .15, {
+        scale: 0.8,
+        yoyo:true,
+        repeat: 1
+    });
+    this.audio.play();
   }
 
   
 
   render() {
     return (
-      <button className={style.audioButton} onClick={()=>this.audio.play()}>
+      <button className={style.audioButton} onClick={ this.playSound } ref={ (root) => this.root = root }>
        <audio  ref={ audio => this.audio = audio } src={ this.props.audioSource }></audio>
         <div className={style.playIconContainer}>
             <svg width="37px" height="41px" viewBox="0 0 37 41">

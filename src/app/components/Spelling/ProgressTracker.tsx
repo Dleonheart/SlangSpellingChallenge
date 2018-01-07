@@ -9,41 +9,36 @@ export interface ProgressTrackerProps {
   wrongs: Number;
 }
 
-
 @observer
 export class ProgressTracker extends React.Component<ProgressTrackerProps, {}> {
     
   constructor(props:any, context: any) {
-    super(props, context);    
+    super(props, context);
+    this.addAnimTargetRef = this.addAnimTargetRef.bind(this);
   }
 
-  private tl : TimelineMax;
-  private logoSegments : HTMLCollection;
-  
-
-  buildTimeline(done) {
-    this.tl = new TimelineMax({paused: true, onComplete: () => {
-        done();
-    }});
-    // insert intro animation timeline here
-    this.tl.play();
-
-  }
-
-  componentDidMount() {
+  private animTargets: Array<HTMLElement> = [];
     
+  componentDidMount() {
+    TweenMax.staggerFrom(this.animTargets, 1, {
+        y:20,
+        alpha:0,
+        ease: Expo.easeOut
+    }, 0.15);
   }
-
   
+  addAnimTargetRef(ref) {
+    this.animTargets.push(ref);
+  }
 
   render() {
     return (
       <div className={style.progressPanel}>
 
         <div className={style.slangLogoContainer}>
-            <svg viewBox="0 0 153 210" className={style.smallSlangLogo}>
+            <svg ref={this.addAnimTargetRef} viewBox="0 0 153 210" className={style.smallSlangLogo}>
                 <g fill="none" transform="translate(-459.000000, -408.000000)">
-                    <g id="slang-logo" transform="translate(459.000000, 408.000000)" ref={logo => logo && (this.logoSegments = logo.children)}>
+                    <g id="slang-logo" transform="translate(459.000000, 408.000000)">
                         <path d="M85.1189403,2.0435881 C75.5230385,-2.7260536 63.8571183,1.13738754 59.0495955,10.6770587 C56.7460788,15.2569737 56.3677829,20.560155 57.9980844,25.4177822 C59.6283859,30.2754093 63.1334613,34.2887436 67.7407924,36.5732467 L124.885306,64.9572596 C134.479024,69.7246555 146.141401,65.8636485 150.950404,56.3280128 C153.253921,51.7480979 153.632217,46.4449165 152.001916,41.5872894 C150.371614,36.7296622 146.866539,32.7163279 142.259208,30.4318248 L85.1189403,2.04781191 L85.1189403,2.0435881 Z" id="Shape" fill="#47AAF7"></path>
                         <path d="M67.8811297,2.03967816 L10.742907,30.4231835 C6.13428936,32.7076348 2.62825997,36.7216364 0.997822127,41.5801881 C-0.632615717,46.4387399 -0.253574532,51.7428697 2.05137534,56.3231322 C6.85908331,65.8626328 18.5254529,69.7260049 28.1217244,64.9564484 L85.264193,36.5729431 C91.468968,33.4930518 95.548798,27.3522911 95.9649324,20.4667131 C96.3810669,13.5811352 93.0701909,6.99838109 87.281036,3.20120554 C81.48697,-0.603641345 74.093485,-1.04791995 67.8811297,2.03545442" id="Shape" fill="#00CA96"></path>
                         <path d="M85.2570422,59.4267533 L28.1145523,31.0427404 C18.5211737,26.2753445 6.85920956,30.1363515 2.05037625,39.6719872 C-0.254101299,44.2528489 -0.632488991,49.5574834 0.998649336,54.4161952 C2.62978766,59.2749071 6.13648932,63.2886583 10.7455111,65.572399 L67.8837553,93.9564119 C77.4793174,98.7260536 89.1448245,94.8626125 93.9521771,85.3229413 C96.2542684,80.743456 96.6318203,75.4413178 95.00165,70.584702 C93.3714798,65.7280862 89.8673471,61.7154908 85.2612879,59.4309771" id="Shape" fill="#92DA0D"></path>
@@ -56,12 +51,9 @@ export class ProgressTracker extends React.Component<ProgressTrackerProps, {}> {
         </div>
 
         <div className={style.progress}>
-
-            <p><span className={style.rightsHeading}>Rights</span>  <span>{this.props.rights}</span></p>
-            <p><span className={style.wrongsHeading}>Wrongs</span>  <span>{this.props.rights}</span></p>
-        
+            <p ref={this.addAnimTargetRef}><span className={style.rightsHeading}>Rights</span>  <span>{this.props.rights}</span></p>
+            <p ref={this.addAnimTargetRef}><span className={style.wrongsHeading}>Wrongs</span>  <span>{this.props.wrongs}</span></p>
         </div>
-        
       </div>
     );
   }

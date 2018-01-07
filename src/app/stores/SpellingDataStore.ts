@@ -1,18 +1,23 @@
 import { observable, computed, action, runInAction } from 'mobx';
 import { SpellingApi } from '../api/SpellingApi';
 
+export enum SpellingStates {
+  waiting = 'waiting',
+  exercise = 'exercise',
+  results = 'results'
+}
+
+
 export class SpellingDataStore {
 
   constructor(api: SpellingApi) {
-    // fixture Data
     this.api = api;
-    this.waiting = true;
   }
 
   private api: SpellingApi;
   private exerciseId : any; 
 
-  @observable waiting: Boolean;
+  @observable uiState: SpellingStates = SpellingStates.waiting;
 
   @observable audioSource: string;
 
@@ -20,19 +25,37 @@ export class SpellingDataStore {
 
   @observable spellingResult: string = "";  
 
-  @observable rights: Number = 0;
+  @observable rights: number = 0;
 
-  @observable wrongs: Number = 0;
+  @observable wrongs: number = 0;
 
   @observable error: string;
+
+  @observable resultData : { answer: string, result: string, isCorrect: Boolean};
+
+  
+  @computed 
+  get waiting () {
+    return this.uiState === SpellingStates.waiting;
+  }
+
+  @computed 
+  get showingExercise () {
+    return this.uiState === SpellingStates.exercise;
+  }
+
+  @computed 
+  get showingResults () {
+    return this.uiState === SpellingStates.results;
+  }
 
   @action
   async fetchExerciseData() {
     try {
-      this.waiting = true;
+      this.uiState = SpellingStates.waiting;
       let data = await this.api.fetchData();
       runInAction(() => {
-        this.waiting = false;
+        this.uiState = SpellingStates.exercise;
         let {audioSource, letterPool, id } = data;
         this.audioSource = audioSource;
         this.letterPool = letterPool.map((letter) => {
@@ -55,11 +78,28 @@ export class SpellingDataStore {
       id: this.exerciseId,
       answer: this.spellingResult
     }
+    this.uiState = SpellingStates.waiting;
     let responseData = await this.api.submitResponse(answerData);
+    
     runInAction(() => {
-      console.log(responseData);
+      this.resultData = {
+        answer: this.spellingResult,
+        isCorrect: responseData.isCorrect,
+        result : responseData.correctAnswer
+      }
+      this.uiState = SpellingStates.results;
+      this.updateProgress();
     });
 
+  }
+
+  @action 
+  updateProgress() {
+    if(this.resultData.isCorrect ) {
+      this.rights += 1;
+    } else {
+      this.wrongs += 1;
+    }
   }
 
   @action 
@@ -93,8 +133,14 @@ export class SpellingDataStore {
   @action
   letterPoolToResult(index: any) {
     let charObject = this.letterPool[index];
-    charObject.isUsed = true;
-    this.spellingResult = this.spellingResult.concat(charObject.letter);
+    if(charObject.isUsed) {
+      let index = this.spellingResult.indexOf(charObject.letter);
+      this.spellingResult = this.spellingResult.slice(0,index) + this.spellingResult.slice(index+1);
+    } else {
+      this.spellingResult = this.spellingResult.concat(charObject.letter);
+    }
+    charObject.isUsed = !charObject.isUsed;
+    
   }
 
   @action
