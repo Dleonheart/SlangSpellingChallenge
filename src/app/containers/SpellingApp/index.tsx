@@ -17,13 +17,11 @@ export interface SpellingAppState {
 @inject(STORE_APPSTATE)
 @observer
 export class SpellingApp extends React.Component<SpellingAppProps, SpellingAppState> {
-
-  constructor(props: SpellingAppProps, context: any) {
-    super(props, context);
+  constructor(props: SpellingAppProps) {
+    super(props);
     this.introFinished = this.introFinished.bind(this);
     this.helpMessageFinished = this.helpMessageFinished.bind(this);
     this.appState = this.props[STORE_APPSTATE];
-    
   }
 
   private appState: AppStateStore
@@ -42,7 +40,8 @@ export class SpellingApp extends React.Component<SpellingAppProps, SpellingAppSt
       return (
       <SlangIntro introFinished={this.introFinished} />
       )
-    } else return null
+    } 
+    return null;
   }
 
   renderHelpMessage() {
@@ -51,7 +50,8 @@ export class SpellingApp extends React.Component<SpellingAppProps, SpellingAppSt
       return (
       <HelpMessage helpMessageFinished={this.helpMessageFinished} />
       )
-    } else return null
+    } 
+    return null;
   }
 
   renderSpellingExercise() {
@@ -60,13 +60,11 @@ export class SpellingApp extends React.Component<SpellingAppProps, SpellingAppSt
       return (
       <SpellingExercise />
       )
-    } else return null
+    } 
+    return null;
   }
 
   render() {
-
-
-
     return (
       <div className={style.card}>
           {this.renderIntro()}

@@ -26,9 +26,10 @@ export class LetterPool extends React.Component<LetterPoolProps, {}> {
 
     return letterPool.map((letterObject, index) => {
       const classNames  = [
-        style.letter
+        style.letter, 
       ];
       letterObject.isUsed && classNames.push(style.used);
+      letterObject.isUsed && classNames.push(style.wobble);
       return (
         <li className={classNames.join(' ')} 
             key={index} 

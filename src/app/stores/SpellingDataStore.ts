@@ -53,7 +53,7 @@ export class SpellingDataStore {
   async fetchExerciseData() {
     try {
       this.uiState = SpellingStates.waiting;
-      let data = await this.api.fetchData();
+      let data = await this.api.fakeFetch();
       runInAction(() => {
         this.uiState = SpellingStates.exercise;
         let {audioSource, letterPool, id } = data;

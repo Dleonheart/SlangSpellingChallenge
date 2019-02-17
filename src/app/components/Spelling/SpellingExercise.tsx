@@ -9,11 +9,11 @@ import { ProgressTracker, AudioComponent, LetterPool, SpellingInput, SpellingLoa
 
 @inject(STORE_SPELLING)
 @observer
-export class SpellingExercise extends React.Component<{}, {}> {
+export class SpellingExercise extends React.Component {
 
     
-  constructor(props:any, context: any) {
-    super(props, context);   
+  constructor(props) {
+    super(props);   
     this.updateSpelling = this.updateSpelling.bind(this);
     this.renderSpellingComponents = this.renderSpellingComponents.bind(this);
     this.renderExerciseResults = this.renderExerciseResults.bind(this);
