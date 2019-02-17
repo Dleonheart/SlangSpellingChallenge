@@ -1,6 +1,7 @@
-# Slang spelling Code Challenge
+# Word Spelling App Ui
 
-Slang Test Submission
+Small application that allows people to practice english spelling.
+interactions with api are mocked but easily replaceable with custom data.
 
 Based upon: [this boilerplate](https://github.com/rokoroku/react-mobx-typescript-boilerplate)
 
@@ -17,17 +18,17 @@ Based upon: [this boilerplate](https://github.com/rokoroku/react-mobx-typescript
 ## Setup
 
 ```
-$ npm install
+$ yarn install
 ```
 
 ## Running
 
 ```
-$ npm start
+$ yarn start
 ```
 
 ## Build
 
 ```
-$ npm run build
+$ yarn build
 ```
