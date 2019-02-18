@@ -2,12 +2,18 @@ import * as React from 'react';
 import { useLayoutEffect, useRef } from 'react';
 import { TweenMax } from 'gsap'
 
-export const SpellingLoader = () => {
-  const logo: React.MutableRefObject<SVGGElement> = useRef(null);
+const useChildrenAnimation = function(ref: SVGSVGElement) {
+  const logo: React.MutableRefObject<SVGGElement> = useRef(ref);
   
   useLayoutEffect(() => {
     TweenMax.staggerFrom(logo.current.children, .8, {alpha: 0, y: 15, repeat: -1, yoyo: true}, .1);
   }, [logo]);
+
+  return logo;
+}
+
+export const SpellingLoader = () => {
+  const logo: React.MutableRefObject<SVGGElement> = useChildrenAnimation(null);
 
   return (
     <svg viewBox="0 0 153 220">
@@ -23,5 +29,4 @@ export const SpellingLoader = () => {
       </g>
     </svg>
   );
-
 }
