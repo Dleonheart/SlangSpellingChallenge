@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as style from './style.css';
 import { observer } from 'mobx-react';
+import { Back, TimelineLite } from 'gsap'
 
-import { TweenMax, TimelineMax, Back, Expo, TimelineLite } from 'gsap'
-import { DOMElement } from 'react';
 
 export interface IntroProps {
     introFinished: () => void;
@@ -12,7 +11,7 @@ export interface IntroProps {
 @observer
 export class SlangIntro extends React.Component<IntroProps> {
   
-  private tl : TimelineLite;
+  private tLine : TimelineLite;
   private logoSegments : HTMLCollection;
   private logoTitle : SVGSVGElement;
 
@@ -22,17 +21,17 @@ export class SlangIntro extends React.Component<IntroProps> {
   }
 
   private buildTimeline(): void {
-    this.tl = new TimelineMax({paused: true, onComplete: this.animationFinished});
-    this.tl.staggerFrom(this.logoSegments, .8, {alpha: 0, y: 15}, .1)
-      .from(this.logoTitle, 1.2, {alpha: 0, y: 15, ease: Back.easeOut}, .5);
-    this.tl.play();
+    this.tLine = new TimelineLite({paused: true, onComplete: this.animationFinished});
+    this.tLine.staggerFrom(this.logoSegments, 1, {alpha: 0, y: 15}, .1)
+      .from(this.logoTitle, 1.2, {alpha: 0, y: 15, ease: Back.easeOut}, '-=0.7');
+    this.tLine.play();
   }
 
   private animationFinished(): void {
-    this.tl.eventCallback('onReverseComplete', () =>{
+    this.tLine.eventCallback('onReverseComplete', () =>{
       this.props.introFinished();
     });
-    this.tl.reverse();
+    this.tLine.reverse();
   }
 
   componentDidMount(): void {
@@ -41,7 +40,7 @@ export class SlangIntro extends React.Component<IntroProps> {
 
   render() {
     return (
-      <div className={style.introContainer}>
+      <div className={style.introContainer} onClick={() => this.tLine.restart()}>
         <div className={style.scene}>
           <svg width="153px" height="210px" viewBox="0 0 153 210" className={style.slangLogo}>
             <g fill="none" transform="translate(-459.000000, -408.000000)">
